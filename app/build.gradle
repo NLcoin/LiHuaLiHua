@@ -18,10 +18,27 @@ android {
         }
     }
     buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
         release {
+            zipAlignEnabled true
+            shrinkResources false
+            buildConfigField("boolean", "LOG_DEBUG", "false")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            zipAlignEnabled true
+            shrinkResources false
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+            debuggable true
+            jniDebuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
@@ -51,8 +68,8 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     //RxJava and RxAndroid
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    //RxCache
+    compile 'io.reactivex:rxjava:1.1.5'
+    // app实现网络数据缓存rxcache
     compile 'de.hannesstruss.rxcache:rxcache:1.1'
     //RxLifecycle 内存泄露
     compile 'com.trello:rxlifecycle-components:0.6.1'
@@ -66,9 +83,13 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.3.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
     //黄油刀butterknife
-    compile 'com.jakewharton:butterknife:7.0.1'
+    //    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     //图片加载库glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //为Glide提供图像转换的Android类库
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
     //jsoup网页解析
     compile 'org.jsoup:jsoup:1.8.3'
     //TabLayout
@@ -94,6 +115,25 @@ dependencies {
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
     //流式布局库
     compile 'com.zhy:flowlayout-lib:1.0.1'
+    //搜索控件
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    //bibili多主题框架
+    compile 'com.bilibili:magicasakura:0.1.1@aar'
+    // app实现网络数据缓存rxcache
+    compile 'com.github.VictorAlbertos.RxCache:runtime:1.6.4'
+    //大牛的Gson
+    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
 
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
+    }
+}
